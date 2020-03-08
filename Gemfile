@@ -20,6 +20,12 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# Use cloudinary as content delivery network
+gem 'cloudinary'
+
+# Gem for serializing... is that even a word??
+gem 'active_model_serializers'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
