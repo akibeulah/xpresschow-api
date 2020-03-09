@@ -8,9 +8,6 @@ class UsersController < ApplicationController
     end
 
     def show
-        # user_serializer = UserSerializer.new(user: @user)
-        # render json: user_serializer.serialize_new_user(), status: :ok
-
         render json: @user, status: :ok
     end
 
