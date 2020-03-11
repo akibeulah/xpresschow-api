@@ -1,4 +1,4 @@
-class UserSerializer < ActiveModel::Serializer
+class VendorrSerializer < ActiveModel::Serializer
     attributes :id, :logo, :first_name, :middle_name, :last_name, :username, :email
   
     def logo
