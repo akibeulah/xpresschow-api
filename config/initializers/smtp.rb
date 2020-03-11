@@ -1,5 +1,5 @@
 ActionMailer::Base.smtp_settings = {
-    domain: 'heroku.com',
+    domain: 'xpresschow.herokuapp.com',
     address: "stmp.sendgrid.net",
     port: 587,
     authentication: :plain,
