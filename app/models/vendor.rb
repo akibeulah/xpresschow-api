@@ -10,6 +10,8 @@ class Vendor < ApplicationRecord
     validates :email, presence: true, uniqueness: true
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
     validates :vendorname, presence: true, uniqueness: true
+    validates :company_name, presence: true, uniqueness: true
+    validates :company_branch, presence: true, uniqueness: true
     validates :password,
               length: { minimum: 8 },
               if: -> { new_record? || !password.nil? }
