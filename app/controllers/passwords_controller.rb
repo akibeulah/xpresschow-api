@@ -1,6 +1,6 @@
 class PasswordsController < ApplicationController
     def forgot
-        if params[:emai].blank?
+        if params[:email].blank?
             return render json: {error: 'Please input a valid email address.'}
         else
             user = User.find_by_email(params[:email])
