@@ -10,8 +10,8 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: 'Your account is being accessed')
     end
 
-    def forgot_password(user) {
+    def forgot_password(user)
         @user = user
         mail(to: @user.email, subject: 'Resetting your XpressChow Password')
-    }
+    end
 end
