@@ -15,6 +15,7 @@ class AuthenticationController < ApplicationController
             token = JsonWebToken.encode(user_id: @user.id)
             time = Time.now + 24.hours.to_i
             
+            UserMailer.login_warning(@user).deliver_now
             render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), username: @user.username}, status: :ok
         else
             render json: {error: 'unauthorized'}, status: :unauthorized
