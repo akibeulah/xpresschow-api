@@ -28,3 +28,7 @@
 
 # Ignore cloudinary config file
 /config/cloudinary.yml
+
+# Ignore Sendgrid config file
+/sendgrid.env
+sendgrid.env

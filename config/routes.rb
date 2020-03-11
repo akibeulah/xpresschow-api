@@ -6,8 +6,9 @@ Rails.application.routes.draw do
 
     # End points for user management
     resources :users, param: :_username
+  resources :vendors, param: :_vendorname
     post '/auth/login', to: 'authentication#login'
-    post 'password/forgot', to: 'password#forgot'
-    post 'password/reset', to: 'password#reset'
+    post '/password/forgot', to: 'passwords#forgot'
+    post '/password/reset', to: 'passwords#reset'
   end
 end
