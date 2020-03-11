@@ -28,8 +28,13 @@ class User < ApplicationRecord
     end
 
     def reset_password!(password)
-        self.reset_password_token = nil
-        self.password = password
+        # self.reset_password_token = nil
+        # self.password = password
+
+        update!(
+            password: password,
+            reset_password_token: nil
+        )
     end
 
     private
