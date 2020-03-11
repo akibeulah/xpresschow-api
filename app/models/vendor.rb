@@ -6,6 +6,7 @@ class Vendor < ApplicationRecord
     has_one_attached :logo
 
     validates :logo, presence: true
+    validates :phone_number, presence: true
     validates :email, presence: true, uniqueness: true
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
     validates :vendorname, presence: true, uniqueness: true
@@ -28,8 +29,13 @@ class Vendor < ApplicationRecord
     end
 
     def reset_password!(password)
-        self.reset_password_token = nil
-        self.password = password
+        # self.reset_password_token = nil
+        # self.password = password
+
+        update!(
+            password: password,
+            reset_password_token: nil
+        )
     end
 
     private
