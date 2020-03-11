@@ -1,7 +1,7 @@
 ActionMailer::Base.smtp_settings = {
     address: 'smtp.sendgrid.net',
-    port: 465,
-    domain: 'xpresschow.herokuapp.co',
+    port: 587,
+    domain: 'xpresschow.herokuapp.com',
     user_name: ENV['SENDGRID_USERNAME'],
     password: ENV['SENDGRID_PASSWORD'],
     authentication: :login,
