@@ -60,7 +60,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     domain: 'https://xpresschow.herokuapp.com',
     address: "stmp.sendgrid.net",
-    port: 587,
+    port: 465,
     authentication: :plain,
     user_name: 'apikey',
     enable_starttls_auto: true,
