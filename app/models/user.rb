@@ -23,7 +23,7 @@ class User < ApplicationRecord
         save!
     end
 
-    def passwod_token_valid?
+    def password_token_valid?
         (self.reset_password_sent_at + 4.hours) > Time.now.utc
     end
 
