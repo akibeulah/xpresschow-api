@@ -57,6 +57,15 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: "https://xpresschow-api.herokuapp.com" }
+  config.action_mailer.smtp_settings = {
+    domain: 'https://xpresschow.herokuapp.com',
+    address: "stmp.sendgrid.net",
+    port: 587,
+    authentication: :plain,
+    user_name: 'apikey',
+    enable_starttls_auto: true,
+    password: ENV['SENDGRID_API_KEY']
+}
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
