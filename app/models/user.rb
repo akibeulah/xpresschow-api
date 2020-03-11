@@ -27,6 +27,11 @@ class User < ApplicationRecord
         (self.reset_password_sent_at + 4.hours) > Time.now.utc
     end
 
+    def reset_password!(password)
+        self.reset_password_token = nil
+        self.password = password
+    end
+
     private
     def generate_token
         SecureRandom.uuid
