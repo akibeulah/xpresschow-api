@@ -33,6 +33,6 @@ class VendorsController < ApplicationController
     end
 
     def vendor_params
-        params.permit(:logo, :vendorname, :email, :password, :password_confirmation, :phone_number)
+        params.permit(:logo, :vendorname, :email, :password, :password_confirmation, :phone_number, :company_name, :company_branch)
     end
 end
