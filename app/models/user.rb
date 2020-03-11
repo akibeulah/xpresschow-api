@@ -16,4 +16,19 @@ class User < ApplicationRecord
     def get_avatar_url
         self.avatar
     end
+
+    def generate_password_token!
+        self.reset_password_token = generate_token
+        self.reset_password_sent_as = Time.now.utc
+        save!
+    end
+
+    def passwod_token_valid?
+        (self.reset_password_sent_At + 4.hours) > Time.now.utc
+    end
+
+    private
+    def generate_token
+        SecureRandom.hex(15)
+    end
 end
