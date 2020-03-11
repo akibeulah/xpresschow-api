@@ -1,5 +1,5 @@
 class VendorSerializer < ActiveModel::Serializer
-    attributes :id, :logo, :first_name, :middle_name, :last_name, :username, :email
+    attributes :id, :logo, :vendorname, :email
   
     def logo
       {
