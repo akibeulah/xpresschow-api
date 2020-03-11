@@ -9,7 +9,11 @@ class ApplicationController < ActionController::API
 
         begin
             @decoded = JsonWebToken.decode(header)
-            @current_user = User.find(@decoded[:user_id])
+            if User.find(@decoded[:user_id])
+                @current_user = User.find(@decoded[:user_id])
+            elsif Vendor.find(@decoded[:vendor_id])
+                @current_vendor = Vendor.find(@decoded[:vendor_id])
+            end
 
         rescue ActiveRecord::RecordNotFound => e
             render json: {errors: e.message}, status: :unauthorized
