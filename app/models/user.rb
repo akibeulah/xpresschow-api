@@ -29,6 +29,6 @@ class User < ApplicationRecord
 
     private
     def generate_token
-        SecureRandom.hex(15)
+        SecureRandom.uuid
     end
 end
