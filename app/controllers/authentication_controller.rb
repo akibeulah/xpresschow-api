@@ -1,16 +1,11 @@
 class AuthenticationController < ApplicationController
-    before_action :authorize_request, except: :login
+    before_action :authorize_request, except: [:login_user, :login_vendor]
 
-    def login
-
+    def login_user
         if User.find_by_email(params[:credential])
             @user = User.find_by_email(params[:credential])
         elsif User.find_by_username(params[:credential])
             @user = User.find_by_username(params[:credential])
-        elsif Vendor.find_by_email(params[:credential])
-            @vendor = Vendor.find_by_email(params[:credential])
-        elsif Vendor.find_by_vendorname(params[:credential])
-            @vendor = Vendor.find_by_vendorname(params[:credential])
         else
             return render json: {error: "Username or Email incorrect"}
         end
@@ -21,7 +16,21 @@ class AuthenticationController < ApplicationController
             
             UserMailer.login_warning(@user).deliver_now
             render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), username: @user.username}, status: :ok
-        elsif @vendor&.authenticate(params[:password])
+        else
+            render json: {error: 'unauthorized'}, status: :unauthorized
+        end
+    end
+
+    def login_vendor
+        if Vendor.find_by_email(params[:credential])
+            @vendor = Vendor.find_by_email(params[:credential])
+        elsif Vendor.find_by_vendorname(params[:credential])
+            @vendor = Vendor.find_by_vendorname(params[:credential])
+        else
+            return render json: {error: "Username or Email incorrect"}
+        end
+
+        if @vendor&.authenticate(params[:password])
             token = JsonWebToken.encode(vendor_id: @vendor.id)
             time = Time.now + 24.hours.to_i
             

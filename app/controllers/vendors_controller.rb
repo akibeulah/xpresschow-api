@@ -1,5 +1,5 @@
 class VendorsController < ApplicationController
-    before_action :authorize_request, except: :create
+    before_action :authorize_vendor, except: :create
     before_action :find_vendor, except: %i[create index]
 
     def index
@@ -21,6 +21,17 @@ class VendorsController < ApplicationController
         end
     end
 
+    def create_meal
+        @meal = @vendor.meals.build(meal_params)
+        @meal.vendor_id = @current_vendor.id
+        if @meal.save
+            VendorMailer.created_meal(@meal, @current_vendor).deliver_now
+            render json: @meal, status: :created
+        else
+            render json: {errors: @vendor.errors.full_messages}, status: :unprocessable_entity
+        end
+    end
+
     def destroy
         @vendor.destroy
     end
@@ -34,5 +45,9 @@ class VendorsController < ApplicationController
 
     def vendor_params
         params.permit(:logo, :vendorname, :email, :password, :password_confirmation, :phone_number, :company_name, :company_branch)
+    end
+
+    def meal_params
+        params.permit(:sample, :name, :price, :desc)
     end
 end

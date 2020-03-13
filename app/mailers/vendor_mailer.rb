@@ -14,4 +14,10 @@ class VendorMailer < ApplicationMailer
         @vendor = vendor
         mail(to: @vendor.email, subject: 'Resetting your XpressChow Password')
     end
+
+    def created_meal(meal, vendor)
+        @meal = meal
+        @vendor = vendor
+        mail(to: @vendor.email, subject: 'Congratualtions you have added a meal to your menu')
+    end
 end
