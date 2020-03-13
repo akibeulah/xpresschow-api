@@ -28,17 +28,24 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :cloudinary
 
-  
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { host: "localhost:3000" }
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_options = {from: 'no-reply@xpresschow.com'}
-
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
+
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.perform_deliveries = true
+  ActionMailer::Base.raise_delivery_errors = true
+  ActionMailer::Base.smtp_settings = 
+  {
+
+    :address            => 'smtp.gmail.com',
+    :port               => 587,
+    :domain             => 'gmail.com',
+    :authentication     => :plain,
+    :user_name          => 'ultratechnologies.dev@gmail.com',
+    :password           => 'Thebells3'
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
