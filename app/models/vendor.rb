@@ -18,7 +18,7 @@ class Vendor < ApplicationRecord
               if: -> { new_record? || !password.nil? }
 
     def get_logo_url
-        self.logo
+        url_for(self.logo)
     end
 
     def generate_password_token!

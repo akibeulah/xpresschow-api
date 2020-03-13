@@ -1,8 +1,4 @@
 class ApplicationController < ActionController::API
-    def not_found
-        render json: {error: 'not found'}
-    end
-
     def authorize_user
         header = request.headers['Authorization']
         header = header.split(' ').last if header
@@ -31,6 +27,10 @@ class ApplicationController < ActionController::API
         rescue JWT::DecodeError => e
             render json: {errors: e.message}, status: :unauthorized
         end
+    end
+
+    def not_found
+        render json: {error: 'not found'}
     end
 end
 

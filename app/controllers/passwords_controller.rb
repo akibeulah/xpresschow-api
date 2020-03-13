@@ -17,7 +17,7 @@ class PasswordsController < ApplicationController
             render json: {status: 'ok'}, status: :ok
         elsif vendor.present?
             vendor.generate_password_token!
-            VendorMailer.forgot_password(user).deliver_now
+            VendorMailer.forgot_password(vendor).deliver_now
 
             render json: {status: 'ok'}, status: :ok
         else

@@ -15,7 +15,8 @@ class User < ApplicationRecord
               if: -> { new_record? || !password.nil? }
 
     def get_avatar_url
-        self.avatar
+        # Rails.application.routes.url_helpers.user_url(self, :only_path => true)
+        url_for(self.avatar)
     end
 
     def generate_password_token!
