@@ -48,6 +48,6 @@ class VendorsController < ApplicationController
     end
 
     def meal_params
-        params.permit(:sample, :name, :price, :desc)
+        params.permit(:sample, :name, :price, :desc, :sample_alt)
     end
 end

@@ -4,10 +4,8 @@ class AuthenticationController < ApplicationController
     def login_user
         if User.find_by_email(params[:credential])
             @user = User.find_by_email(params[:credential])
-        elsif User.find_by_username(params[:credential])
-            @user = User.find_by_username(params[:credential])
         else
-            return render json: {error: "Username or Email incorrect"}
+            return render json: {error: "Email Incorrect"}
         end
 
         if @user&.authenticate(params[:password])
@@ -15,7 +13,7 @@ class AuthenticationController < ApplicationController
             time = Time.now + 24.hours.to_i
             
             UserMailer.login_warning(@user).deliver_now
-            render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), username: @user.username}, status: :ok
+            render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), first_name: @user.first_name}, status: :ok
         else
             render json: {error: 'unauthorized'}, status: :unauthorized
         end
@@ -27,7 +25,7 @@ class AuthenticationController < ApplicationController
         elsif Vendor.find_by_vendorname(params[:credential])
             @vendor = Vendor.find_by_vendorname(params[:credential])
         else
-            return render json: {error: "Username or Email incorrect"}
+            return render json: {error: "Vendorname or Email Incorrect"}
         end
 
         if @vendor&.authenticate(params[:password])

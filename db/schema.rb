@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_003252) do
+ActiveRecord::Schema.define(version: 2020_03_28_022902) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -41,13 +41,30 @@ ActiveRecord::Schema.define(version: 2020_03_24_003252) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "price", precision: 10, scale: 2
+    t.string "sample_alt"
+    t.integer "discount"
     t.index ["vendor_id"], name: "index_meals_on_vendor_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "vendor_id"
+    t.integer "user_id"
+    t.integer "servings", default: 1, null: false
+    t.string "location"
+    t.string "payment_method"
+    t.boolean "paid", default: false, null: false
+    t.boolean "dispatched", default: false, null: false
+    t.boolean "delivered", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "meal_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["vendor_id"], name: "index_orders_on_vendor_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "username"
     t.string "email"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
@@ -55,7 +72,6 @@ ActiveRecord::Schema.define(version: 2020_03_24_003252) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.string "phone_number"
-    t.decimal "rating", precision: 3, scale: 2
   end
 
   create_table "vendors", force: :cascade do |t|
@@ -74,4 +90,6 @@ ActiveRecord::Schema.define(version: 2020_03_24_003252) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "meals", "vendors"
+  add_foreign_key "orders", "users"
+  add_foreign_key "orders", "vendors"
 end

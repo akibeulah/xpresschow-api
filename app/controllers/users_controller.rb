@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
     def create
         @user = User.new(user_params)
-        if @user.save 
+    if @user.save
             render json: @user, status: :created
             UserMailer.welcome_email(@user).deliver_now
         else
@@ -27,12 +27,12 @@ class UsersController < ApplicationController
 
     private
     def find_user
-        @user = User.find_by_username!(params[:_username])
+        @user = User.find_by_id!(params[:_user_id])
         rescue ActiveRecord::RecordNotFound
             render json: {errors: 'User not found'}, status: :not_found
     end
 
     def user_params
-        params.permit(:avatar, :first_name, :last_name, :username, :email, :password, :password_confirmation, :phone_number)
+        params.permit(:first_name, :last_name, :email, :password, :password_confirmation, :phone_number)
     end
 end
