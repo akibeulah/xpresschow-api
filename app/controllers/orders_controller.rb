@@ -1,4 +1,3 @@
-module Api::V1
     class OrdersController < ApplicationController
         before_action :authorize_user, only: [:index, :create, :show] 
         before_action :authorize_vendor, only: [:dispatched]
@@ -61,4 +60,3 @@ module Api::V1
         end
     end
     
-end

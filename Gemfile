@@ -14,6 +14,8 @@ group :production do
 end
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
+# Gem for making AJAX calls
+gem 'rack-cors'
 # Use Json Web Token (JWT) for token based authentication
 gem 'jwt'
 # Use ActiveModel has_secure_password

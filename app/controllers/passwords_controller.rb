@@ -1,4 +1,3 @@
-module Api::V1
     class PasswordsController < ApplicationController
         def forgot
             if params[:email].blank?
@@ -57,4 +56,3 @@ module Api::V1
         end
     end
     
-end

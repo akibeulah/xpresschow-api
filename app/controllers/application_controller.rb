@@ -1,5 +1,5 @@
-module Api::V1
-    class ApplicationController < ActionController::API
+class ApplicationController < ActionController::API
+
         def authorize_user
             header = request.headers['Authorization']
             header = header.split(' ').last if header
@@ -29,9 +29,18 @@ module Api::V1
                 render json: {errors: e.message}, status: :unauthorized
             end
         end
+
+        def session_user
+            @decoded = JsonWebToken.decode(header)
+            if !@decoded.empty?
+                @decoded = JsonWebToken.decode(header)
+                @current_user = User.find(@decoded[:user_id])
+            else
+                nil
+            end
+        end
     
         def not_found
             render json: {error: 'not found'}
         end
     end
-end

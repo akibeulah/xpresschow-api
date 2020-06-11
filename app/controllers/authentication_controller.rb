@@ -1,4 +1,4 @@
-module Api:V1
+
     class AuthenticationController < ApplicationController
         before_action :authorize_request, except: [:login_user, :login_vendor]
     
@@ -6,17 +6,17 @@ module Api:V1
             if User.find_by_email(params[:credential])
                 @user = User.find_by_email(params[:credential])
             else
-                return render json: {error: "Email Incorrect"}
+                return render json: {error: "Email Incorrect"}, status: :unprocessable_entity
             end
     
             if @user&.authenticate(params[:password])
-                token = JsonWebToken.encode(user_id: @user.id)
+                token = JsonWebToken.encode(user_id: @user.id, class: 'user')
                 time = Time.now + 24.hours.to_i
                 
-                UserMailer.login_warning(@user).deliver_now
-                render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), first_name: @user.first_name}, status: :ok
+                # UserMailer.login_warning(@user).deliver_now
+                render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), user: @user}, status: :ok
             else
-                render json: {error: 'unauthorized'}, status: :unauthorized
+                render json: {error: 'Email or Password Incorrect'}, status: :unprocessable_entity
             end
         end
     
@@ -39,6 +39,14 @@ module Api:V1
                 render json: {error: 'unauthorized'}, status: :unauthorized
             end
         end
+
+        def auto_login
+            if session_user
+                render json: session_user
+            else
+                render json: {errors: "No User Logged In"}
+            end
+        end
     
         private 
         def login_params
@@ -47,4 +55,3 @@ module Api:V1
     
     end
     
-end

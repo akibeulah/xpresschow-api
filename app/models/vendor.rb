@@ -1,9 +1,8 @@
 class Vendor < ApplicationRecord
     include Rails.application.routes.url_helpers
-    
+
     has_secure_password
 
-    has_one_attached :logo
     has_many :meals
     has_many :orders
     has_many :users, through: :orders
@@ -14,14 +13,10 @@ class Vendor < ApplicationRecord
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
     validates :vendorname, presence: true, uniqueness: true
     validates :company_name, presence: true, uniqueness: false
-    validates :company_branch, presence: true, uniqueness: true
+    validates :company_branch, presence: true
     validates :password,
               length: { minimum: 8 },
               if: -> { new_record? || !password.nil? }
-
-    def get_logo_url
-        url_for(self.logo)
-    end
 
     def generate_password_token!
         self.reset_password_token = generate_token

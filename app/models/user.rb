@@ -6,8 +6,8 @@ class User < ApplicationRecord
     has_many :vendors, through: :orders
 
     validates :email, presence: true, uniqueness: true
-    validates :first_name, presence: true, uniqueness: true
-    validates :last_name, presence: true, uniqueness: true
+    validates :first_name, presence: true
+    validates :last_name, presence: true
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
     validates :phone_number, presence: true, uniqueness: true
     validates :password,
@@ -32,6 +32,10 @@ class User < ApplicationRecord
             password: password,
             reset_password_token: nil
         )
+    end
+
+    def update_location!(location)
+        update!(location: location)
     end
 
     private

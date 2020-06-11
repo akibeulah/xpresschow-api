@@ -1,10 +1,15 @@
-module Api::V1
     class VendorsController < ApplicationController
-        before_action :authorize_vendor, except: :create
-        before_action :find_vendor, except: %i[create index]
+        before_action :authorize_vendor, except: [:create, :index, :filtered_vendors]
+        before_action :find_vendor, except: [:create, :index, :filtered_vendors]
     
         def index
-            @vendors = Vendor.all
+            @vendors = Vendor.left_outer_joins(:meals).group(:id).order('COUNT(meals.id) DESC')
+            render json: @vendors, status: :ok
+        end
+
+        def filtered_vendors
+            Rails.logger.debug params.inspect            
+            @vendors =  Vendor.where(location: params[:location])
             render json: @vendors, status: :ok
         end
     
@@ -68,4 +73,3 @@ module Api::V1
         end
     end
     
-end
