@@ -5,7 +5,7 @@
       get '/meals', to: 'meals#index'
   
       # End points for user management
-      resources :users, param: :_user_id do
+      resources :users do
         collection { post :create, via: :options  }
       end
       post '/user/login', to: 'authentication#login_user'
@@ -14,16 +14,17 @@
       resources :orders
   
       # End points for vendor managemant
-      resources :vendors, param: :_vendorname
+      resources :vendors, param: :vendorname
       get '/f_vendor', to: 'vendors#filtered_vendors'
+      get '/v_search', to: 'vendors#collection'
       post '/vendor/login', to: 'authentication#login_vendor'
-      post '/vendor/:_vendorname/meals/new', to: 'vendors#create_meal'
-      get 'vendor/:_vendorname/orders', to: 'vendors#get_orders'
-      get 'vendor/:_vendorname/orders/dispatched', to: 'orders#dispatched'
-      get 'vendor/:_vendorname/orders/paid', to: 'orders#paid'
-      get 'vendor/:_vendorname/orders/delivered', to: 'orders#delivered'
-      get 'vendor/:_vendorname/orders/incomplete', to: 'vendors#get_uncompleted'
-      get 'vendor/:_vendorname/orders/complete', to: 'vendors#get_completed'
+      post '/vendor/:vendorname/meals/new', to: 'vendors#create_meal'
+      get 'vendor/:vendorname/orders', to: 'vendors#get_orders'
+      get 'vendor/:vendorname/orders/dispatched', to: 'orders#dispatched'
+      get 'vendor/:vendorname/orders/paid', to: 'orders#paid'
+      get 'vendor/:vendorname/orders/delivered', to: 'orders#delivered'
+      get 'vendor/:vendorname/orders/incomplete', to: 'vendors#get_uncompleted'
+      get 'vendor/:vendorname/orders/complete', to: 'vendors#get_completed'
   
       # End points for password management
       # Todo: intensify vendor account creation

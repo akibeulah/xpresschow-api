@@ -1,24 +1,45 @@
     class OrdersController < ApplicationController
+        require 'json'
+
         before_action :authorize_user, only: [:index, :create, :show] 
         before_action :authorize_vendor, only: [:dispatched]
     
         def index
-            @orders = Order.where(user_id: @current_user.id)
-            render json: @orders, status: :ok
+            orders = Order.where(user_id: @current_user.id)
+            render json: orders, status: :ok
         end
     
         def show
-            @order = @current_user.orders.where(show_params)
-            render json: @order, status: :ok
+            order = Orders.find(show_params)
+            if @current_user.id == order.user
+                render json: order, status: :ok
+            else
+                render status: :unauthorized
+            end
         end
     
         def create
-            o = @current_user.orders.build(order_params)
-    
-            if o.save 
-                render json: o, status: :created
+            orders = JSON.parse(params[:orders].to_s)
+            order = Order.new(
+                vendor_id: params[:vendor_id],
+                user_id: @current_user.id,
+                location: params[:location],
+                payment_method: params[:payment_method],
+                paid: params[:paid],
+                price: params[:price]
+            )
+                
+            if order.save 
+                orders.each do |o| 
+                    OrderRecord.create(
+                        meal_id: (o[0].to_i),
+                        servings: (o[2].to_i),
+                        order_id: order.id
+                    )
+                end
+                render json: order, status: :created
             else
-                render json: { errors: o.errors.full_messages }, status: :unprocessable_entity
+                render json: {errors: order.errors.full_messages}, status: :unprocessable_entity
             end
         end
     
@@ -52,7 +73,7 @@
         private 
     
         def order_params
-            params.permit(:vendor_id, :meal_id, :servings, :location, :payment_method, :paid, :dispatched, :delivered)
+            params.permit(:vendor_id, :user_id, :location, :payment_method, :price, :paid, :orders)
         end
     
         def show_params 

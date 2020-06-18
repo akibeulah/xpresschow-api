@@ -1,5 +1,6 @@
 class Vendor < ApplicationRecord
     include Rails.application.routes.url_helpers
+    include PgSearch::Model
 
     has_secure_password
 
@@ -17,6 +18,16 @@ class Vendor < ApplicationRecord
     validates :password,
               length: { minimum: 8 },
               if: -> { new_record? || !password.nil? }
+
+    pg_search_scope :search,
+        against: {
+            company_name: :A,
+            company_branch: :B,
+            location: :C
+        },
+        using: {
+            tsearch: { dictionary: :english }
+        }
 
     def generate_password_token!
         self.reset_password_token = generate_token
@@ -37,6 +48,25 @@ class Vendor < ApplicationRecord
             reset_password_token: nil
         )
     end
+
+    class << self
+        def search_by params = {}
+            # params = params.try(:symbolize_keys) || {}
+            puts "____________________#{params}"
+            
+            collection = all
+            
+            if params[:term].present?
+                collection = collection.where('company_name ILIKE ? OR company_branch ILIKE ? OR location ILIKE ? ', "#{ params[:term] }%", "#{ params[:term] }%", "#{ params[:term] }%")
+            end
+            
+            if params[:name].present?
+                collection = collection.search(params[:name])
+            end
+
+          collection
+        end
+      end
 
     private
     def generate_token

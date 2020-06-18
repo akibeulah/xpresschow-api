@@ -5,13 +5,10 @@ ruby '2.6.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4', group: [:development, :test]
-# Use postgresql as database for production
-group :production do
+# Use postgresql as database 
   gem 'pg'
+  gem 'pg_search'
   gem 'rails_12factor'
-end
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Gem for making AJAX calls

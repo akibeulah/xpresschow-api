@@ -1,19 +1,24 @@
     class VendorsController < ApplicationController
-        before_action :authorize_vendor, except: [:create, :index, :filtered_vendors]
-        before_action :find_vendor, except: [:create, :index, :filtered_vendors]
+        before_action :authorize_vendor, except: [:create, :index, :filtered_vendors, :collection, :show]
+        before_action :find_vendor, except: [:create, :index, :filtered_vendors, :collection, :show]
     
         def index
             @vendors = Vendor.left_outer_joins(:meals).group(:id).order('COUNT(meals.id) DESC')
             render json: @vendors, status: :ok
         end
 
-        def filtered_vendors
-            Rails.logger.debug params.inspect            
-            @vendors =  Vendor.where(location: params[:location])
+        def collection 
+            @vendors ||= Vendor.search_by(params)
+            render json: @vendors, status: :ok, each_serializer: VendorCollectionSerializer
+        end
+
+        def filtered_vendors         
+            @vendors =  Vendor.where(location: params[:location]).left_outer_joins(:meals).group(:id).order('COUNT(meals.id) DESC')
             render json: @vendors, status: :ok
         end
     
         def show
+            @vendor = Vendor.find_by(vendorname: params[:vendorname])
             render json: @vendor, status: :ok
         end
     

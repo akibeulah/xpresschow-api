@@ -1,8 +1,14 @@
 class Order < ApplicationRecord
-    belongs_to :user
-    belongs_to :vendor, dependent: :destroy
+    has_many :order_records
 
-    validates :meal_id, presence: true
+    belongs_to :user
+    belongs_to :vendor
+
+    validates :vendor_id, presence: true
+    validates :user_id, presence: true
+    validates :location, presence: true
+    validates :price, presence: true
+    validates :payment_method, presence: true
 
     def order_dispatched!
         self.dispatched = !self.dispatched

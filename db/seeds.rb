@@ -14,7 +14,7 @@ CSV.foreach(Rails.root.join('./db/vendordata.csv'), headers: false) do |r|
   end
 end
 
-CSV.foreach(Rails.root.join('./db/mealdata.csv'), headers: false) do |r|
+CSV.foreach(Rails.root.join('./db/mealdatan.csv'), headers: false) do |r|
     Meal.create! do |m|
       m.vendor_id = r[0]
       m.name = r[1]
@@ -22,5 +22,6 @@ CSV.foreach(Rails.root.join('./db/mealdata.csv'), headers: false) do |r|
       m.price = r[3]
       m.sample_alt = r[4]
       m.discount = r[5]
+      m.tag = r[6]
     end
 end
