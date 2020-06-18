@@ -32,3 +32,11 @@
 # Ignore Sendgrid config file
 /sendgrid.env
 sendgrid.env
+
+# Ignore seed csvs
+/db/seed.rb
+db/seed.rb
+/db/mealdatan.csv
+/db/vendordata.csv
+db/mealdatan.csv
+db/vendordata.csv
