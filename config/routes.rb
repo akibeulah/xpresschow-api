@@ -13,12 +13,13 @@
        post '/user/login', to: 'authentication#login_user'
        post '/auto', to: 'authentication#auto_login'
        post '/update_location', to: 'users#location'
+       get '/search', to: 'users#collection'
+       
        resources :orders
-   
+       
        # End points for vendor managemant
        resources :vendors, param: :vendorname
        get '/f_vendor', to: 'vendors#filtered_vendors'
-       get '/v_search', to: 'vendors#collection'
        post '/vendor/login', to: 'authentication#login_vendor'
        post '/vendor/:vendorname/meals/new', to: 'vendors#create_meal'
        get 'vendor/:vendorname/orders', to: 'vendors#get_orders'
@@ -27,14 +28,14 @@
        get 'vendor/:vendorname/orders/delivered', to: 'orders#delivered'
        get 'vendor/:vendorname/orders/incomplete', to: 'vendors#get_uncompleted'
        get 'vendor/:vendorname/orders/complete', to: 'vendors#get_completed'
-   
+       
        # End points for password management
        # Todo: intensify vendor account creation
        post '/password/forgot', to: 'passwords#forgot'
        post '/password/reset', to: 'passwords#reset'
+      end
     end
-  end
-
+    
     get '/*a', to: 'application#not_found'
 
     # get '*path', to: redirect('/'), constraints: lambda { |req|

@@ -3,19 +3,16 @@ module Api
         class VendorsController < Api::V1::BaseController
             before_action :authorize_vendor, except: [:create, :index, :filtered_vendors, :collection, :show]
             before_action :find_vendor, except: [:create, :index, :filtered_vendors, :collection, :show]
-        
+
             def index
+                # Todo: Pagination for vendor show...
                 @vendors = Vendor.left_outer_joins(:meals).group(:id).order('COUNT(meals.id) DESC')
                 render json: @vendors, status: :ok
             end
     
-            def collection 
-                @vendors ||= Vendor.search_by(params)
-                render json: @vendors, status: :ok, each_serializer: VendorCollectionSerializer
-            end
-    
             def filtered_vendors         
                 @vendors =  Vendor.where(location: params[:location]).left_outer_joins(:meals).group(:id).order('COUNT(meals.id) DESC')
+                puts "____________________#{params[:location]}"
                 render json: @vendors, status: :ok
             end
         

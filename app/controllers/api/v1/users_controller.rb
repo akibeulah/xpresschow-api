@@ -1,8 +1,8 @@
 module Api
     module V1
         class UsersController < Api::V1::BaseController
-            before_action :authorize_user, except: [:create, :index]
-            before_action :find_user, except: %i[create index get_vendor_name]
+            before_action :authorize_user, except: [:create, :index, :collection]
+            before_action :find_user, except: %i[create index collection]
         
             # def index
             #     users = User.all
@@ -17,6 +17,14 @@ module Api
                 end
             end
     
+            
+        def collection 
+            @vendors ||= Vendor.search_vendors(params[:query])
+            @meals ||= Meal.search_meals(params[:query])
+            
+            render json: { vendors: @vendors, meals: @meals, status: :ok }
+        end
+
             def location
                 user.update_location!(params[:location])
             end

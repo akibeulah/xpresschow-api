@@ -39,8 +39,8 @@ class ApplicationController < ActionController::API
                 nil
             end
         end
-    
-        def not_found
-            render json: {error: 'not found'}
-        end
+        
+            def not_found
+                render json: {error: 'not found'}
+            end
     end
