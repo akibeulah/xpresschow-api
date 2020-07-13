@@ -48,6 +48,7 @@ module Api
                 @meal = Meal.new(
                     vendor_id: @vendor.id,
                     name: params[:name],
+                    sample: params[:sample],
                     desc: params[:desc],
                     sample_alt: params[:sample_alt],
                     discount: params[:discount],
@@ -124,11 +125,11 @@ module Api
             end
         
             def meal_params
-                params.permit(:vendorname, :name, :price, :desc, :sample_alt, :discount, :tag)
+                params.permit(:vendorname, :sample, :name, :price, :desc, :sample_alt, :discount, :tag)
             end
             
             def updated_meal_params
-                params.permit(:id, :name, :price, :desc, :sample_alt, :discount, :tag, :available)
+                params.permit(:id, :name, :sample, :price, :desc, :sample_alt, :discount, :tag, :available)
             end
         end
         
