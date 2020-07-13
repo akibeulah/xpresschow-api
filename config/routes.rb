@@ -1,5 +1,5 @@
   Rails.application.routes.draw do
-  default_url_options :host => "localhost:3001"
+  default_url_options :host => "localhost:3000"
 
   namespace :api do
     namespace :v1 do
@@ -20,8 +20,12 @@
        # End points for vendor managemant
        resources :vendors, param: :vendorname
        get '/f_vendor', to: 'vendors#filtered_vendors'
+       get ':vendorname/profile', to: 'vendors#profile'
        post '/vendor/login', to: 'authentication#login_vendor'
        post '/vendor/:vendorname/meals/new', to: 'vendors#create_meal'
+       patch '/vendor/:vendorname/meals/update', to: 'vendors#edit_meal'
+       patch '/vendor/:vendorname/meals/toggle', to: 'vendors#toggle_meal'
+       patch '/vendor/:vendorname/orders/dispatch', to: 'vendors#toggle_dispatch'
        get 'vendor/:vendorname/orders', to: 'vendors#get_orders'
        get 'vendor/:vendorname/orders/dispatched', to: 'orders#dispatched'
        get 'vendor/:vendorname/orders/paid', to: 'orders#paid'

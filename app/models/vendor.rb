@@ -4,6 +4,7 @@ class Vendor < ApplicationRecord
 
     has_secure_password
 
+    # has_one :logo
     has_many :meals
     has_many :orders
     has_many :users, through: :orders

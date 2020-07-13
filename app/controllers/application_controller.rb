@@ -22,10 +22,12 @@ class ApplicationController < ActionController::API
             begin
                 @decoded = JsonWebToken.decode(header)
                 @current_vendor = Vendor.find(@decoded[:vendor_id])
-    
+                
             rescue ActiveRecord::RecordNotFound => e
+                puts  e.message
                 render json: {errors: e.message}, status: :unauthorized
             rescue JWT::DecodeError => e
+                puts  e.message
                 render json: {errors: e.message}, status: :unauthorized
             end
         end
