@@ -9,6 +9,9 @@ class Vendor < ApplicationRecord
     has_many :orders
     has_many :users, through: :orders
 
+    geocoded_by :address # To let rails know which method return address
+    after_validation :geocode # After model validation fetch cordinates for gecode methods
+    
     validates :logo, presence: true
     validates :phone_number, presence: true, uniqueness: true
     validates :email, presence: true, uniqueness: true

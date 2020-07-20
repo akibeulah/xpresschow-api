@@ -6,6 +6,8 @@ class User < ApplicationRecord
     # User relations
     has_many :orders # One user can have many orders
     has_many :vendors, through: :orders # Users are related to the vendors they ordered from
+    geocoded_by :address # To let rails know which method return address
+    after_validation :geocode # After model validation fetch cordinates for gecode methods
 
     # Validations ensure that certain parameter are passed in before a user is created
     validates :email, presence: true, uniqueness: true
