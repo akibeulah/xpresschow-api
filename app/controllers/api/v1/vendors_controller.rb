@@ -20,7 +20,7 @@ module Api
     
             def filtered_vendors         
                 @vendors =  Vendor.where(location: params[:location]).left_outer_joins(:meals).group(:id).order('COUNT(meals.id) DESC')
-                puts "____________________#{params[:location]}"
+                # @vendors =  Vendor.all
                 render json: @vendors, status: :ok
             end
         

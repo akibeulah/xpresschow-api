@@ -25,6 +25,7 @@ module Api
                 order = Order.new(
                     vendor_id: params[:vendor_id],
                     user_id: @current_user.id,
+                    address: params[:address],
                     location: params[:location],
                     payment_method: params[:payment_method],
                     paid: params[:paid],
@@ -75,7 +76,7 @@ module Api
             private 
         
             def order_params
-                params.permit(:vendor_id, :user_id, :location, :payment_method, :price, :paid, :orders)
+                params.permit(:vendor_id, :user_id, :address, :location, :payment_method, :price, :paid, :orders)
             end
         
             def show_params 
