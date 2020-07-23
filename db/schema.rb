@@ -26,12 +26,13 @@ ActiveRecord::Schema.define(version: 2020_07_20_004837) do
   end
 
   create_table "carriers", force: :cascade do |t|
+    t.string "carriername"
     t.string "first_name"
     t.string "last_name"
     t.string "email"
     t.string "password_digest"
     t.string "vehicle_type"
-    t.integer "delivery_count"
+    t.integer "delivery_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "viable", default: true, null: false
@@ -40,12 +41,12 @@ ActiveRecord::Schema.define(version: 2020_07_20_004837) do
   end
 
   create_table "deliveries", force: :cascade do |t|
-    t.bigint "orders_id"
     t.bigint "carrier_id"
+    t.bigint "order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["carrier_id"], name: "index_deliveries_on_carrier_id"
-    t.index ["orders_id"], name: "index_deliveries_on_orders_id"
+    t.index ["order_id"], name: "index_deliveries_on_order_id"
   end
 
   create_table "meals", force: :cascade do |t|

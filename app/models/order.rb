@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
     has_one :delivery
     has_many :order_records
+    has_one :carrier, through: :delivery
 
     belongs_to :user
     belongs_to :vendor

@@ -2,7 +2,9 @@ class Carrier < ApplicationRecord
   has_secure_password
 
   has_many :deliveries
+  has_many :orders, through: :deliveries
 
+  validates :carriername, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true

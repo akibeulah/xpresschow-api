@@ -6,8 +6,8 @@ class OrderSerializer < ActiveModel::Serializer
     parent = []
     object.order_records.each do |o|
       parent.push(o.servings)
-      parent.push(Meal.find(o.id).name)
-      parent.push(Meal.find(o.id).price)
+      parent.push(Meal.find(o.meal_id).name)
+      parent.push(Meal.find(o.meal_id).price)
 
       records.push(parent)
       parent = []

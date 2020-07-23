@@ -1,8 +1,6 @@
 module Api
     module V1
-        class AuthenticationController < Api::V1::BaseController
-            before_action :authorize_request, except: [:login_user, :login_vendor]
-        
+        class AuthenticationController < Api::V1::BaseController        
             def login_user
                 if User.find_by_email(params[:credential])
                     @user = User.find_by_email(params[:credential])
@@ -40,12 +38,24 @@ module Api
                     render json: {error: 'unauthorized'}, status: :unauthorized
                 end
             end
-
-            def auto_login
-                if session_user
-                    render json: session_user
+            
+            def login_carrier
+                if Carrier.find_by_email(params[:credential])
+                    @carrier = Carrier.find_by_email(params[:credential])
+                elsif Carrier.find_by_carriername(params[:credential])
+                    @carrier = Carrier.find_by_carriername(params[:credential])
                 else
-                    render json: {errors: "No User Logged In"}
+                     render json: {error: "Carriername or Email Incorrect"}
+                end
+        
+                if @carrier&.authenticate(params[:password])
+                    token = JsonWebToken.encode(carrier_id: @carrier.id)
+                    time = Time.now + 24.hours.to_i
+                    
+                    # CarrierMailer.login_warning(@carrier).deliver_now
+                    render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), carrier: @carrier, consumer: 'carrier'}, status: :ok
+                else
+                    render json: {error: 'unauthorized'}, status: :unauthorized
                 end
             end
         

@@ -48,7 +48,7 @@ module Api # This is a namespace, it helps specify that this is an Api
                 user = User.new(user_params)
                 if user.save
                     render json: {status: :created}
-                    UserMailer.welcome_email(@user).deliver_now 
+                    UserMailer.welcome_email(user).deliver_now 
                     # Sends out a welcome email to the user upon account creation. The view for the email can be found in the views directory, but the
                     # welcome_email function definition is in the mailer directory in the UserMailer file.
                 else

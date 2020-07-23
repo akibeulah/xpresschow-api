@@ -103,6 +103,11 @@ module Api
             def destroy
                 @vendor.destroy
             end
+
+            def destroy_meal
+                del = @current_user.meals.where(id: params[:id]).destroy
+                puts del.errors.full_messages
+            end
         
             def get_orders
                 @orders = Order.where(vendor_id: @current_vendor.id)

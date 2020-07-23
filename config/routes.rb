@@ -11,20 +11,27 @@
          collection { post :create, via: :options  }
        end
        post '/user/login', to: 'authentication#login_user'
-       post '/auto', to: 'authentication#auto_login'
        post '/update_location', to: 'users#location'
        get '/search', to: 'users#collection'
        
        resources :orders
        
+       resources :carriers, param: :carriername
+       post '/carrier/login', to: 'authentication#login_carrier'
+       get '/carrier/dashboard', to: 'carriers#dashboard'
+       get '/carrier/jobs', to: 'carriers#jobs'
+       post '/carrier/register_job', to: 'carriers#register_job'
+       post '/carrier/toggle_delivered', to: 'carriers#toggle_delivered'
+       
        # End points for vendor managemant
        resources :vendors, param: :vendorname
+       post '/vendor/login', to: 'authentication#login_vendor'
        get '/f_vendor', to: 'vendors#filtered_vendors'
        get ':vendorname/profile', to: 'vendors#profile'
-       post '/vendor/login', to: 'authentication#login_vendor'
        post '/vendor/:vendorname/meals/new', to: 'vendors#create_meal'
        patch '/vendor/:vendorname/meals/update', to: 'vendors#edit_meal'
        patch '/vendor/:vendorname/meals/toggle', to: 'vendors#toggle_meal'
+       delete '/vendor/:vendorname/meals/destroy', to: 'vendors#destroy_meal'
        patch '/vendor/:vendorname/orders/dispatch', to: 'vendors#toggle_dispatch'
        get 'vendor/:vendorname/orders', to: 'vendors#get_orders'
        get 'vendor/:vendorname/orders/dispatched', to: 'orders#dispatched'

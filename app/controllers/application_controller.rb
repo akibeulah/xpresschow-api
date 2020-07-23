@@ -31,16 +31,30 @@ class ApplicationController < ActionController::API
                 render json: {errors: e.message}, status: :unauthorized
             end
         end
-
-        def session_user
-            @decoded = JsonWebToken.decode(header)
-            if !@decoded.empty?
+    
+        def authorize_carrier
+            header = request.headers['Authorization']
+            header = header.split(' ').last if header
+    
+            begin
                 @decoded = JsonWebToken.decode(header)
-                @current_user = User.find(@decoded[:user_id])
-            else
-                nil
+                @current_carrier = Carrier.find(@decoded[:carrier_id])
+                
+            rescue ActiveRecord::RecordNotFound => e
+                puts  e.message
+                render json: {errors: e.message}, status: :unauthorized
+            rescue JWT::DecodeError => e
+                puts  e.message
+                render json: {errors: e.message}, status: :unauthorized
             end
         end
+
+        # def session_user
+        #     @decoded = JsonWebToken.decode(header)
+        #     if !@decoded.empty?
+        #         @current_user = User.find(@decoded[:user_id])
+        #     end
+        # end
         
             def not_found
                 render json: {error: 'not found'}
