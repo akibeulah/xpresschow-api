@@ -10,7 +10,7 @@ gem 'pg'
 gem 'pg_search'
 gem 'rails_12factor'
 # Use Puma as the app server
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 # Use Json Web Token (JWT) for token based authentication
