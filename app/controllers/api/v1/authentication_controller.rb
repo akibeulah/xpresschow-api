@@ -5,7 +5,7 @@ module Api
                 if User.find_by_email(params[:credential])
                     @user = User.find_by_email(params[:credential])
                 else
-                    return render json: {error: "Email Incorrect"}, status: :unprocessable_entity
+                    return render json: {error: "Email does not exist"}, status: :unauthorized
                 end
         
                 if @user&.authenticate(params[:password])
@@ -32,8 +32,8 @@ module Api
                     token = JsonWebToken.encode(vendor_id: @vendor.id)
                     time = Time.now + 24.hours.to_i
                     
-                    VendorMailer.login_warning(@vendor).deliver_now
                     render json: {token: token, exp: time.strftime("%m-%d-%Y %H:%M"), vendor: @vendor, consumer: 'vendor'}, status: :ok
+                    VendorMailer.login_warning(@vendor).deliver_now
                 else
                     render json: {error: 'unauthorized'}, status: :unauthorized
                 end

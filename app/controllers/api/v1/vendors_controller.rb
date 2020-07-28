@@ -122,7 +122,7 @@ module Api
             end
         
             def vendor_params
-                params.permit(:logo, :vendorname, :email, :password, :password_confirmation, :phone_number, :company_name, :company_branch)
+                params.permit(:logo, :vendorname, :email, :password, :password_confirmation, :phone_number, :company_name, :company_branch, :address, :location)
             end
             
             def updated_vendor_params

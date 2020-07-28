@@ -11,9 +11,6 @@ module Api # This is a namespace, it helps specify that this is an Api
             # clause.
             before_action :authorize_user, except: [:create, :collection] 
             # This method checks if the user is using a valid JWT token. :authorize_user is defined in the application controller.
-            before_action :find_user, except: %i[create collection]
-            # This method makes sure the user data being returned matches the user in the JWT token. :find_user is defined at the bottom of the user controller.
-        
             # def index
             #     users = User.all
             #     render json: users, status: :ok
@@ -47,10 +44,10 @@ module Api # This is a namespace, it helps specify that this is an Api
             def create
                 user = User.new(user_params)
                 if user.save
-                    render json: {status: :created}
                     UserMailer.welcome_email(user).deliver_now 
                     # Sends out a welcome email to the user upon account creation. The view for the email can be found in the views directory, but the
                     # welcome_email function definition is in the mailer directory in the UserMailer file.
+                render json: { user: user, status: :ok }
                 else
                     render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
                 end
@@ -61,13 +58,7 @@ module Api # This is a namespace, it helps specify that this is an Api
                 user.destroy
             end
         
-            private # Protected methods are defined under private, this also makes sure they are not tempared with from another controller
-                def find_user # This function ensures that the user data being used for queries matches the user from the authorized token
-                    user = User.find_by_id!(params[:id])
-                    rescue ActiveRecord::RecordNotFound
-                        render json: {errors: 'User not found'}, status: :not_found
-                end
-                
+            private # Protected methods are defined under private, this also makes sure they are not tempared with from another controller            
                 # This method the sanitizes parameters used for user creation. 
                 def user_params
                     params.permit(:first_name, :last_name, :email, :password, :password_confirmation, :phone_number)

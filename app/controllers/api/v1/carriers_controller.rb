@@ -68,7 +68,7 @@ module Api
 
       private  
         def carrier_params
-            params.permit(:carrier, :first_name, :last_name, :email, :location, :carriername, :password, :phone_number, :vehicle_type)
+            params.permit(:carrier, :first_name, :last_name, :email, :location, :carriername, :password, :phone_number, :vehicle_type, :address)
         end
 
         def delivery_params
