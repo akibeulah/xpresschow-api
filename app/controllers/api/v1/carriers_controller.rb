@@ -30,8 +30,7 @@ module Api
       end
 
       def dashboard
-        # jobs = Order.where(location: @current_carrier.location, dispatched: false, prepared: true)
-        jobs = Order.all
+        jobs = Order.where(location: @current_carrier.location, dispatched: false, prepared: true)
         render json: jobs, status: :ok, each_serializer: JobSerializer
       end
       
