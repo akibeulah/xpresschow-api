@@ -1,8 +1,7 @@
 class ApplicationController < ActionController::API
-
         def authorize_user
             header = request.headers['Authorization']
-            header = header.split(' ').last if 
+            header = header.split(' ').last if header
             
             begin
                 @decoded = JsonWebToken.decode(header)
@@ -49,13 +48,6 @@ class ApplicationController < ActionController::API
             end
         end
 
-        # def session_user
-        #     @decoded = JsonWebToken.decode(header)
-        #     if !@decoded.empty?
-        #         @current_user = User.find(@decoded[:user_id])
-        #     end
-        # end
-        
             def not_found
                 render json: {error: 'not found'}
             end

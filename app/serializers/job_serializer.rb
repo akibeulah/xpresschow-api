@@ -12,7 +12,7 @@ class JobSerializer < ActiveModel::Serializer
   end
 
   def vendor_address
-    u = Vendor.find(object.user_id)
+    u = Vendor.find(object.vendor_id)
     return u.address
   end
 end
