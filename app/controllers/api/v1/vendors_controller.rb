@@ -91,9 +91,9 @@ module Api
             end
             end
             
-            def toggle_dispatch
+            def toggle_prepared
                 @order = Order.find_by(id: params[:id])
-                if @order.toggle!(:dispatched)
+                if @order.toggle!(:prepared)
                     render json: Order.where(vendor_id: @current_vendor.id), status: :ok, each_serializer: OrderSerializer
                 else
                     render json: { errors: @order.error.full_messages}, status: :unprocessable_entity

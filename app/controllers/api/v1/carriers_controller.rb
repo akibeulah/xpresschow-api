@@ -30,7 +30,8 @@ module Api
       end
 
       def dashboard
-        jobs = Order.where(location: @current_carrier.location, dispatched: false)
+        # jobs = Order.where(location: @current_carrier.location, dispatched: false, prepared: true)
+        jobs = Order.all
         render json: jobs, status: :ok, each_serializer: JobSerializer
       end
       
@@ -68,7 +69,7 @@ module Api
 
       private  
         def carrier_params
-            params.permit(:carrier, :first_name, :last_name, :email, :location, :carriername, :password, :phone_number, :vehicle_type, :address)
+            params.permit(:carrier, :first_name, :last_name, :email, :location, :carriername, :password, :phone_number, :vehicle_type)
         end
 
         def delivery_params

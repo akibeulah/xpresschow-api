@@ -1,5 +1,5 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id, :vendor_id, :user_id, :location, :payment_method, :dispatched, :delivered, :paid, :price, :order_records
+  attributes :id, :vendor_id, :user_id, :location, :payment_method, :dispatched, :delivered, :paid, :price, :order_records, :prepared
     
   def order_records
     records = []

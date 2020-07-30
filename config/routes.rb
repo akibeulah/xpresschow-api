@@ -32,7 +32,7 @@
        patch '/vendor/:vendorname/meals/update', to: 'vendors#edit_meal'
        patch '/vendor/:vendorname/meals/toggle', to: 'vendors#toggle_meal'
        delete '/vendor/:vendorname/meals/destroy', to: 'vendors#destroy_meal'
-       patch '/vendor/:vendorname/orders/dispatch', to: 'vendors#toggle_dispatch'
+       patch '/vendor/:vendorname/orders/prepared', to: 'vendors#toggle_prepared'
        get 'vendor/:vendorname/orders', to: 'vendors#get_orders'
        get 'vendor/:vendorname/orders/dispatched', to: 'orders#dispatched'
        get 'vendor/:vendorname/orders/paid', to: 'orders#paid'
